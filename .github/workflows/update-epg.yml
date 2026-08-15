@@ -1,0 +1,39 @@
+name: Update Kings EPG
+
+on:
+  schedule:
+    - cron: '17 11 * * 0'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  update-epg:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v6
+
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: '3.13'
+
+      - name: Rebuild Kings EPG
+        env:
+          OPEN_EPG_URL: ${{ secrets.OPEN_EPG_URL }}
+        run: python build_epg.py
+
+      - name: Commit refreshed EPG
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add Kings_One_EPG_MASTER.xml.gz
+          if git diff --cached --quiet; then
+            echo "No EPG changes to commit."
+          else
+            git commit -m "Weekly EPG refresh"
+            git push
+          fi

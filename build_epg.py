@@ -121,6 +121,12 @@ def main() -> None:
     src_root = ET.fromstring(xml_bytes)
 
     channels = {c.attrib.get("id"): c for c in src_root.findall("channel")}
+    
+    for channel_id in sorted(channels):
+        if any(word in channel_id.lower() for word in
+               ("hbo", "mgm", "epix", "cinemax", "outermax", "abc")):
+            print("SOURCE CHANNEL:", channel_id)
+
     programmes = src_root.findall("programme")
 
     out_root = ET.Element("tv", src_root.attrib)

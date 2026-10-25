@@ -18,7 +18,7 @@ OPEN_EPG_URL = os.environ["OPEN_EPG_URL"]
 OUTPUT = Path("Kings_One_EPG_MASTER.xml.gz")
 
 CHANNEL_MAP = {
-    'ABC.us': 'NY | New York | ABC (WABC)',
+    'WABC HDTV.us': 'NY | New York | ABC (WABC)',
     'AMC.us': 'amc.us',
     'Action MAX.us': 'actionmaxpacific.us',
     'BET Her.us': 'bether.us',
